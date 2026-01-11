@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agentic AI Network Optimizer</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="app">
+        <!-- Animated Background -->
+        <div class="bg-animation">
+            <div class="bg-gradient"></div>
+            <div class="bg-grid"></div>
+            <div class="floating-orb orb-1"></div>
+            <div class="floating-orb orb-2"></div>
+            <div class="floating-orb orb-3"></div>
+        </div>
+
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <span class="logo-icon">🤖</span>
+                <div class="logo-text">
+                    <h1>Agentic AI</h1>
+                    <span>Network Optimizer</span>
+                </div>
+            </div>
+            <div class="header-status">
+                <div class="status-indicator" id="connectionStatus">
+                    <span class="status-dot"></span>
+                    <span class="status-text">Connecting...</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Health Score Card -->
+            <section class="health-section">
+                <div class="health-card glass-card">
+                    <div class="health-score-container">
+                        <svg class="health-ring" viewBox="0 0 120 120">
+                            <circle class="health-ring-bg" cx="60" cy="60" r="54" />
+                            <circle class="health-ring-progress" cx="60" cy="60" r="54" id="healthRing" />
+                        </svg>
+                        <div class="health-score-value">
+                            <span id="healthScore">--</span>
+                            <span class="health-label">Health</span>
+                        </div>
+                    </div>
+                    <div class="health-details">
+                        <div class="health-stat">
+                            <span class="stat-value" id="totalNodes">--</span>
+                            <span class="stat-label">Total Nodes</span>
+                        </div>
+                        <div class="health-stat healthy">
+                            <span class="stat-value" id="healthyNodes">--</span>
+                            <span class="stat-label">Healthy</span>
+                        </div>
+                        <div class="health-stat warning">
+                            <span class="stat-value" id="unhealthyNodes">--</span>
+                            <span class="stat-label">Issues</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Control Panel -->
+            <section class="controls-section">
+                <div class="glass-card controls-card">
+                    <h2>Control Panel</h2>
+                    <div class="controls-grid">
+                        <button class="control-btn primary" id="runCycleBtn">
+                            <span class="btn-icon">▶</span>
+                            Run Cycle
+                        </button>
+                        <button class="control-btn" id="refreshBtn">
+                            <span class="btn-icon">🔄</span>
+                            Refresh
+                        </button>
+                        <div class="scenario-dropdown">
+                            <select id="scenarioSelect" class="scenario-select">
+                                <option value="">Trigger Scenario...</option>
+                                <option value="high_traffic">🔥 High Traffic</option>
+                                <option value="outage">💥 Node Outage</option>
+                                <option value="gradual_degradation">📉 Degradation</option>
+                                <option value="recovery">✨ Recovery</option>
+                                <option value="normal">✅ Normal</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="cycle-info">
+                        <span>Cycles: <strong id="cycleCount">0</strong></span>
+                        <span>Last: <strong id="lastCycle">Never</strong></span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Agent Status -->
+            <section class="agents-section">
+                <div class="glass-card">
+                    <h2>Agent Status</h2>
+                    <div class="agents-grid">
+                        <div class="agent-card" id="monitorAgent">
+                            <div class="agent-icon">👁️</div>
+                            <div class="agent-info">
+                                <span class="agent-name">Monitor</span>
+                                <span class="agent-status">Idle</span>
+                            </div>
+                            <div class="agent-pulse"></div>
+                        </div>
+                        <div class="agent-card" id="decisionAgent">
+                            <div class="agent-icon">🧠</div>
+                            <div class="agent-info">
+                                <span class="agent-name">Decision</span>
+                                <span class="agent-status">Idle</span>
+                            </div>
+                            <div class="agent-pulse"></div>
+                        </div>
+                        <div class="agent-card" id="actionAgent">
+                            <div class="agent-icon">⚡</div>
+                            <div class="agent-info">
+                                <span class="agent-name">Action</span>
+                                <span class="agent-status">Idle</span>
+                            </div>
+                            <div class="agent-pulse"></div>
+                        </div>
+                        <div class="agent-card" id="coordinatorAgent">
+                            <div class="agent-icon">🎯</div>
+                            <div class="agent-info">
+                                <span class="agent-name">Coordinator</span>
+                                <span class="agent-status">Idle</span>
+                            </div>
+                            <div class="agent-pulse"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Network Metrics -->
+            <section class="metrics-section">
+                <div class="glass-card">
+                    <h2>Network Metrics</h2>
+                    <div class="metrics-grid" id="metricsGrid">
+                        <div class="metric-card">
+                            <div class="metric-header">
+                                <span class="metric-icon">⏱️</span>
+                                <span class="metric-name">Avg Latency</span>
+                            </div>
+                            <div class="metric-value" id="avgLatency">--</div>
+                            <div class="metric-unit">ms</div>
+                            <div class="metric-bar">
+                                <div class="metric-bar-fill" id="latencyBar"></div>
+                            </div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-header">
+                                <span class="metric-icon">📶</span>
+                                <span class="metric-name">Avg Bandwidth</span>
+                            </div>
+                            <div class="metric-value" id="avgBandwidth">--</div>
+                            <div class="metric-unit">Mbps</div>
+                            <div class="metric-bar">
+                                <div class="metric-bar-fill success" id="bandwidthBar"></div>
+                            </div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-header">
+                                <span class="metric-icon">📉</span>
+                                <span class="metric-name">Packet Loss</span>
+                            </div>
+                            <div class="metric-value" id="avgPacketLoss">--</div>
+                            <div class="metric-unit">%</div>
+                            <div class="metric-bar">
+                                <div class="metric-bar-fill warning" id="packetLossBar"></div>
+                            </div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-header">
+                                <span class="metric-icon">💻</span>
+                                <span class="metric-name">Avg CPU</span>
+                            </div>
+                            <div class="metric-value" id="avgCpu">--</div>
+                            <div class="metric-unit">%</div>
+                            <div class="metric-bar">
+                                <div class="metric-bar-fill" id="cpuBar"></div>
+                            </div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-header">
+                                <span class="metric-icon">🧠</span>
+                                <span class="metric-name">Avg Memory</span>
+                            </div>
+                            <div class="metric-value" id="avgMemory">--</div>
+                            <div class="metric-unit">%</div>
+                            <div class="metric-bar">
+                                <div class="metric-bar-fill" id="memoryBar"></div>
+                            </div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-header">
+                                <span class="metric-icon">🔗</span>
+                                <span class="metric-name">Max Latency</span>
+                            </div>
+                            <div class="metric-value" id="maxLatency">--</div>
+                            <div class="metric-unit">ms</div>
+                            <div class="metric-bar">
+                                <div class="metric-bar-fill" id="maxLatencyBar"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Nodes Grid -->
+            <section class="nodes-section">
+                <div class="glass-card">
+                    <h2>Network Nodes</h2>
+                    <div class="nodes-grid" id="nodesGrid">
+                        <!-- Nodes will be dynamically generated -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Activity Feed -->
+            <section class="activity-section">
+                <div class="glass-card">
+                    <h2>Activity Feed</h2>
+                    <div class="activity-feed" id="activityFeed">
+                        <div class="activity-empty">
+                            <span>🔍</span>
+                            <p>Run a cycle to see activity</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Recent Decisions -->
+            <section class="decisions-section">
+                <div class="glass-card">
+                    <h2>Recent Decisions</h2>
+                    <div class="decisions-list" id="decisionsList">
+                        <div class="activity-empty">
+                            <span>🧠</span>
+                            <p>No decisions yet</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Toast Notifications -->
+        <div class="toast-container" id="toastContainer"></div>
+    </div>
+
+    <script src="/static/app.js"></script>
+</body>
+
+</html>
