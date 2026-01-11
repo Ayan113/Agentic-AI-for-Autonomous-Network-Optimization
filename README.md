@@ -6,10 +6,12 @@ A multi-agent AI system for autonomous network monitoring and optimization using
 
 ## 🌐 Live Demo
 
-> **Run locally:** The system runs a local web server with a beautiful dashboard at `http://localhost:8000`
+### 🚀 **Live Deployment:** [https://agentic-network-optimizeragentic-ai-for.onrender.com](https://agentic-network-optimizeragentic-ai-for.onrender.com)
 
+> **Note:** Free tier may take 30-50 seconds to wake up on first visit.
+
+### Run Locally:
 ```bash
-# Quick Start
 git clone https://github.com/Ayan113/Agentic-AI-for-Autonomous-Network-Optimization.git
 cd Agentic-AI-for-Autonomous-Network-Optimization
 python -m venv venv
