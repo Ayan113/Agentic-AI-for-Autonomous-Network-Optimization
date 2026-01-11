@@ -9,7 +9,7 @@ from typing import Optional
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, HTMLResponse
 
 from .routes import router
 from ..agents.coordinator import Coordinator
@@ -64,19 +64,35 @@ def create_app() -> FastAPI:
         allow_headers=["*"],
     )
     
-    # Include API routes
+    # Serve frontend at root FIRST (before API routes)
+    @app.get("/", response_class=HTMLResponse)
+    async def serve_frontend():
+        """Serve the frontend dashboard."""
+        if FRONTEND_DIR.exists() and (FRONTEND_DIR / "index.html").exists():
+            return FileResponse(FRONTEND_DIR / "index.html")
+        # Fallback: return a simple HTML page that redirects to /static/index.html
+        return HTMLResponse("""
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta http-equiv="refresh" content="0; url=/static/index.html">
+            <title>Redirecting...</title>
+        </head>
+        <body>
+            <p>Redirecting to dashboard...</p>
+        </body>
+        </html>
+        """)
+    
+    # Include API routes at /api prefix
     app.include_router(router, prefix="/api")
     
-    # Also mount routes at root for backward compatibility
+    # Also include at root for backward compatibility (but "/" is already handled above)
     app.include_router(router)
     
     # Serve frontend static files
     if FRONTEND_DIR.exists():
         app.mount("/static", StaticFiles(directory=FRONTEND_DIR), name="static")
-        
-        @app.get("/")
-        async def serve_frontend():
-            return FileResponse(FRONTEND_DIR / "index.html")
     
     return app
 
@@ -91,3 +107,4 @@ def get_coordinator() -> Coordinator:
 
 # Create the app instance
 app = create_app()
+

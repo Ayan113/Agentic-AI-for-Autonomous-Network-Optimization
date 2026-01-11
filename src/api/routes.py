@@ -35,9 +35,9 @@ class CycleRequest(BaseModel):
 
 
 # Routes
-@router.get("/")
-async def root():
-    """Root endpoint with API information."""
+@router.get("/info")
+async def api_info():
+    """API information endpoint."""
     return {
         "name": "Agentic AI Network Optimizer",
         "version": get_config().system.version,
